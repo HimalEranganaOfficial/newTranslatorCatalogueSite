@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#495E57">
+  <meta name="description" content="Find sworn translators in Sri Lanka by name, registration number, district, court and language. Browse document samples and translation standards.">
+  <meta name="robots" content="index,follow">
+  <title>Sworn Translators Sri Lanka | Search the Directory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="#" aria-label="Sworn Translators Sri Lanka home"><span class="brand-mark">ST</span><span>Sworn Translators<span class="brand-sub">Sri Lanka Directory</span></span></a>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav">Menu</button>
+      <nav id="mainNav" class="main-nav" aria-label="Main navigation">
+        <a href="#directory">Find a Translator</a><a href="#samples">Document Samples</a><a href="#register">Translator Registration</a><a href="#standards">Document Verification &amp; Standards</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Sri Lanka · Sworn translator directory</p>
+          <h1>Find the right translator for your <span>official documents.</span></h1>
+          <p class="hero-copy">Search the directory by language, name, registration number, district or court. Check details and understand the steps involved in sworn translations.</p>
+          <div class="hero-actions"><a class="btn btn-primary" href="#directory">Search directory <span aria-hidden="true">→</span></a><a class="btn btn-quiet" href="#standards">View standards</a></div>
+          <div class="trust-line"><span class="trust-dot"></span><span id="heroCount">Loading directory…</span><span>·</span><span>Searchable on any device</span></div>
+        </div>
+        <aside class="hero-card">
+          <div class="hero-card-top"><span class="mini-label">Quick lookup</span><span class="status-pill"><span></span> Directory</span></div>
+          <h2>Verify a registration</h2>
+          <p>Enter a registration number to find a matching record in the loaded directory.</p>
+          <form id="heroVerifyForm" class="quick-verify"><label class="sr-only" for="heroReg">Registration number</label><input id="heroReg" placeholder="e.g. 1983/LL/CO/013" autocomplete="off"><button class="btn btn-primary" type="submit">Verify</button></form>
+          <a class="text-link" href="#standards">How verification works <span aria-hidden="true">↗</span></a>
+        </aside>
+      </div>
+    </section>
+
+    <section class="ad-wrap container" aria-label="Advertisement">
+      <div class="ad-slot ad-leaderboard"><span class="ad-label">Advertisement</span><strong>Responsive ad placement</strong><small>Reserve this area for your approved AdSense ad unit.</small></div>
+    </section>
+
+    <section id="directory" class="section container">
+      <div class="section-heading"><div><p class="eyebrow">Category A · Document owners</p><h2>Search the directory</h2><p>Filter the available records and contact a translator directly using the details shown in their listing.</p></div><span class="result-chip" id="resultCount">Loading…</span></div>
+      <div class="search-panel">
+        <div class="search-field"><label for="searchInput">Search by name, registration, address or language</label><div class="input-with-icon"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Try “Russian”, “Colombo” or a registration number" autocomplete="off"></div></div>
+        <div class="filters">
+          <div><label for="languageFilter">Language</label><select id="languageFilter"><option value="">All languages</option></select></div>
+          <div><label for="districtFilter">District</label><select id="districtFilter"><option value="">All districts</option></select></div>
+          <div><label for="courtFilter">District court</label><select id="courtFilter"><option value="">All courts</option></select></div>
+          <button class="btn btn-outline" id="clearFilters" type="button">Clear filters</button>
+        </div>
+      </div>
+      <div id="directoryNotice" class="notice notice-info" role="status" hidden></div>
+      <div id="directoryResults" class="translator-grid" aria-live="polite"></div>
+      <div class="directory-bottom"><span id="pageSummary"> </span><div class="pagination"><button class="btn btn-outline btn-small" id="prevPage" type="button">Previous</button><button class="btn btn-outline btn-small" id="nextPage" type="button">Next</button></div></div>
+      <div class="ad-slot ad-infeed"><span class="ad-label">Advertisement</span><strong>In-feed ad placement</strong><small>Place a responsive native ad between directory result groups.</small></div>
+    </section>
+
+    <section id="samples" class="section section-muted">
+      <div class="container">
+        <div class="section-heading"><div><p class="eyebrow">Category A · Sample previewer</p><h2>Explore document samples</h2><p>Illustrative layouts only. These samples are not official forms and must not be used as certified translations.</p></div></div>
+        <div class="sample-tabs" role="tablist" aria-label="Document type">
+          <button class="sample-tab active" role="tab" aria-selected="true" data-sample="birth">Birth certificate</button>
+          <button class="sample-tab" role="tab" aria-selected="false" data-sample="marriage">Marriage certificate</button>
+          <button class="sample-tab" role="tab" aria-selected="false" data-sample="death">Death certificate</button>
+          <button class="sample-tab" role="tab" aria-selected="false" data-sample="nic">National Identity Card (NIC)</button>
+        </div>
+        <div class="sample-viewer">
+          <div class="sample-preview"><img id="sampleImage" src="samples/birth-certificate-p1.jpg" alt="Illustrative sample document page"><div class="sample-watermark">ILLUSTRATIVE SAMPLE</div></div>
+          <div class="sample-details"><span class="mini-label">Sample document</span><h3 id="sampleTitle">Birth certificate</h3><p>Preview a sample page and switch between page numbers. Layouts are placeholders for design demonstration, not government-issued documents.</p><div id="samplePages" class="page-picker" aria-label="Sample page number"><button class="page-btn active" data-page="1" aria-pressed="true">Page 1</button><button class="page-btn" data-page="2" aria-pressed="false">Page 2</button><button class="page-btn" data-page="3" aria-pressed="false">Page 3</button><button class="page-btn" data-page="4" aria-pressed="false">Page 4</button></div><p class="sample-caption" id="sampleCaption">Page 1 of 4 · illustrative sample</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="register" class="section container">
+      <div class="section-heading"><div><p class="eyebrow">Category B · Translator listing</p><h2>Register or request a listing</h2><p>Submit your details for a local preview listing. This static demo stores submissions only in this browser.</p></div></div>
+      <div class="register-grid">
+        <div class="register-promo"><span class="promo-icon">↗</span><h3>Get discovered by more clients</h3><p>Priority placement can make a profile easier to find. Paid placement should be clearly labelled and should never imply government endorsement or verified status unless independently confirmed.</p><ul><li>Appear in relevant language and district searches</li><li>Keep your contact information easy to find</li><li>Request a featured placement review</li></ul><a href="#directory" class="text-link">Explore current listings →</a></div>
+        <form id="registrationForm" class="form-card">
+          <div class="form-card-heading"><h3>Translator details</h3><span class="required-note">* Required</span></div>
+          <div class="form-grid">
+            <div><label for="regNumber">R. Number *</label><input id="regNumber" name="r_number" required placeholder="e.g. 1983/LL/CO/013"></div>
+            <div><label for="fullName">Full name *</label><input id="fullName" name="name" required autocomplete="name"></div>
+            <div class="span-2"><label for="address">Address *</label><textarea id="address" name="address" required rows="2"></textarea></div>
+            <div><label for="tel">Tel No *</label><input id="tel" name="tel" type="tel" required autocomplete="tel"></div>
+            <div><label for="email">Mail address *</label><input id="email" name="email" type="email" required autocomplete="email"></div>
+            <div><label for="regDistrict">District *</label><select id="regDistrict" name="district" required><option value="">Select district</option></select></div>
+            <div><label for="regCourt">District court *</label><input id="regCourt" name="court" required placeholder="e.g. Colombo"></div>
+            <div><label for="lang1">Language 1 *</label><input id="lang1" name="lang1" required placeholder="Sinhala - English"></div>
+            <div><label for="lang2">Language 2</label><input id="lang2" name="lang2" placeholder="Optional"></div>
+            <div><label for="lang3">Language 3</label><input id="lang3" name="lang3" placeholder="Optional"></div>
+            <div><label for="lang4">Language 4</label><input id="lang4" name="lang4" placeholder="Optional"></div>
+          </div>
+          <label class="checkline"><input type="checkbox" id="regConsent" required><span>I confirm that the information is accurate and understand this is a local demo submission, not official registration.</span></label>
+          <button class="btn btn-primary btn-full" type="submit">Submit listing request</button>
+          <p id="registrationMessage" class="form-message" role="status"></p>
+        </form>
+      </div>
+      <div class="template-panel"><div><p class="eyebrow">Editable Word templates</p><h3>Download starter templates</h3><p>Editable .docx layouts for translator workflows. Review and adapt to the relevant court and current legal requirements before use.</p></div><div class="template-links"><a class="btn btn-outline" href="templates/Birth_Certificate_Template.docx" download>Birth certificate .docx</a><a class="btn btn-outline" href="templates/Marriage_Certificate_Template.docx" download>Marriage certificate .docx</a><a class="btn btn-outline" href="templates/Death_Certificate_Template.docx" download>Death certificate .docx</a></div></div>
+    </section>
+
+    <section id="standards" class="section section-muted">
+      <div class="container">
+        <div class="section-heading"><div><p class="eyebrow">Category C · Public / institutional use</p><h2>Document Verification &amp; Standards</h2><p>Look up a registration number in the loaded directory. A match is a directory match only, not a live confirmation from the Ministry of Justice or a court.</p></div></div>
+        <div class="verify-layout">
+          <form id="verifyForm" class="verify-card"><span class="verify-icon">✓</span><h3>Quick verification lookup</h3><p>Search by exact registration number, such as <code>1983/LL/CO/013</code>.</p><label for="verifyInput">Registration number</label><div class="input-row"><input id="verifyInput" placeholder="Enter R. Number" autocomplete="off" required><button class="btn btn-primary" type="submit">Check</button></div><div id="verifyResult" class="verify-result" role="status" aria-live="polite"></div></form>
+          <div class="standards-intro"><h3>Sworn translation checklist</h3><p>Requirements can depend on the receiving authority, document type, court practice and current law. Confirm the applicable instructions with the relevant court, Ministry or receiving institution before relying on this guidance.</p></div>
+        </div>
+        <div class="standards-grid">
+          <article class="standard-card"><span>01</span><h3>Multi-page integrity / corner seal</h3><p>Where required by the relevant authority, ensure multi-page documents are securely linked and sealed across page edges to discourage page substitution. Confirm the exact method locally.</p></article>
+          <article class="standard-card"><span>02</span><h3>Language declaration</h3><p>State the translation direction clearly at the top of the first page, for example, “Translation from Sinhala to English,” where appropriate.</p></article>
+          <article class="standard-card"><span>03</span><h3>End-of-translation marker</h3><p>Use a clear ending marker when required by the recipient. Example: <code>--- END OF TRANSLATION ---</code></p></article>
+          <article class="standard-card"><span>04</span><h3>Translator declaration</h3><p>Include a declaration of accuracy and competence in a form accepted by the relevant authority. Avoid using a generic declaration without checking requirements.</p></article>
+          <article class="standard-card"><span>05</span><h3>Signature and official stamp</h3><p>Confirm which signature, stamp or seal is required for the intended use. Wet-ink signatures and court stamps may be required in some workflows, but do not assume a single rule applies to every case.</p></article>
+          <article class="standard-card"><span>06</span><h3>Date clarification</h3><p>Follow the receiving authority’s rules for execution dates. Do not omit a declaration date solely on the assumption that the source document already contains dates.</p></article>
+        </div>
+        <div class="legal-note"><strong>Important:</strong> This website is an independent directory interface, not an official government service. Listing data may be outdated or incomplete. For authoritative confirmation, contact the relevant Sri Lankan authority directly.</div>
+      </div>
+    </section>
+
+    <section id="reviews" class="section container">
+      <div class="section-heading"><div><p class="eyebrow">Community feedback</p><h2>Translator reviews</h2><p>Share factual feedback about your experience. Reviews are stored locally in this browser in this demo and are not published to a shared server.</p></div></div>
+      <div class="reviews-layout">
+        <form id="reviewForm" class="form-card">
+          <h3>Leave a review</h3>
+          <label for="reviewTranslator">Translator</label><select id="reviewTranslator" required><option value="">Select a translator</option></select>
+          <label for="reviewName">Your name (optional)</label><input id="reviewName" maxlength="80" placeholder="Name or initials">
+          <label for="reviewRating">Rating</label><select id="reviewRating"><option value="5">5 — Excellent</option><option value="4">4 — Good</option><option value="3">3 — Average</option><option value="2">2 — Poor</option><option value="1">1 — Very poor</option></select>
+          <label for="reviewText">Your feedback</label><textarea id="reviewText" rows="4" maxlength="1000" required placeholder="Describe your experience respectfully and factually."></textarea>
+          <div class="captcha-box"><label id="captchaQuestion" for="captchaAnswer">Solve this check</label><input id="captchaAnswer" type="number" required placeholder="Answer"><button id="newCaptcha" class="text-button" type="button">New question</button></div>
+          <button class="btn btn-primary btn-full" type="submit">Submit review</button><p id="reviewMessage" class="form-message" role="status"></p>
+        </form>
+        <div><div class="reviews-toolbar"><h3>Recent feedback</h3><span class="mini-label">Local demo data</span></div><div id="reviewsList" class="reviews-list"></div><details class="admin-panel"><summary>Local moderation tools</summary><p>Demo only: these controls are not protected by a server login. Do not deploy as a secure moderation system.</p><label for="adminPin">Demo admin passphrase</label><input id="adminPin" type="password" placeholder="Set ADMIN_DEMO_KEY in js/app.js"><button id="unlockAdmin" class="btn btn-outline btn-small" type="button">Unlock moderation</button><div id="moderationControls" hidden></div></details></div>
+      </div>
+    </section>
+
+    <section id="owner-tools" class="section section-muted">
+      <div class="container owner-grid">
+        <div><p class="eyebrow">Site owner tools</p><h2>Update the directory without editing code</h2><p>Import a Ministry-style spreadsheet or replace the dataset with CSV, XLSX or JSON. Imported records are saved in this browser only; upload the updated JSON file to your site repository to publish a permanent update for all visitors.</p><div class="owner-actions"><button id="exportJson" class="btn btn-outline" type="button">Export current JSON</button><button id="exportZip" class="btn btn-primary" type="button">Download full ZIP archive</button></div><p id="ownerMessage" class="form-message" role="status"></p></div>
+        <div class="import-card"><h3>Data sync / file importer</h3><p>Accepted formats: .xlsx, .xls, .csv, .json. Expected columns include R. Number, Full Name, Address, Tel No, Mail Address, District, District Court and Language 1–6.</p><label class="file-drop" for="dataFile"><span class="upload-icon">↑</span><strong>Choose or drop a data file</strong><span>Excel, CSV or JSON · processed in this browser</span><input id="dataFile" type="file" accept=".xlsx,.xls,.csv,.json,application/json,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"></label><div class="import-options"><label class="checkline"><input type="checkbox" id="replaceData" checked><span>Replace current local dataset (recommended)</span></label></div><button id="importData" class="btn btn-primary btn-full" type="button">Import selected file</button><p id="importMessage" class="form-message" role="status"></p></div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="container footer-grid"><div class="brand footer-brand"><span class="brand-mark">ST</span><span>Sworn Translators<span class="brand-sub">Sri Lanka Directory</span></span></div><p>Independent directory interface. Always confirm a translator’s current status and the receiving institution’s requirements through authoritative channels.</p><div class="footer-links"><a href="#directory">Directory</a><a href="#standards">Standards</a><a href="#register">Register</a><a href="README.md">Deployment guide</a></div></div><div class="container footer-bottom"><span>© <span id="year"></span> Sworn Translators Sri Lanka</span><span>Built for responsive browsing and maintainable data updates</span></div></footer>
+</body>
+</html>
