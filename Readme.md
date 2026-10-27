@@ -1,5 +1,45 @@
 # Sworn Translators Sri Lanka Directory
 
+## Full-stack architecture
+
+The project now supports a Node.js/Express backend with PostgreSQL as the shared
+source of truth:
+
+```text
+├── server/
+│   ├── index.js                 # HTTP server and static frontend hosting
+│   ├── db.js                    # PostgreSQL connection pool
+│   └── routes/
+│       ├── translators.js       # Directory search API
+│       └── submissions.js       # Registration and review API
+├── db/migrations/
+│   └── 001_initial_schema.sql
+├── scripts/import-translators.js
+├── package.json
+└── .env.example
+```
+
+The database separates published translator records, language pairs,
+registration requests, and reviews. Registration requests and reviews start in
+`pending` status so a future authenticated admin workflow can moderate them.
+The existing static JSON and browser storage are intentionally still present
+until the API integration is completed and verified.
+
+### Local backend setup
+
+1. Install Node.js 20 or newer and PostgreSQL.
+2. Copy `.env.example` to `.env` and set `DATABASE_URL`.
+3. Create the database, then apply `db/migrations/001_initial_schema.sql`.
+4. Install dependencies with `npm install`.
+5. Import the existing directory with `npm run db:import`.
+6. Start the server with `npm start` and open `http://localhost:3000`.
+
+The health check is available at `GET /api/health`. Directory search is
+available at `GET /api/translators?q=Colombo&district=Colombo&page=1&pageSize=12`.
+Forms will use `POST /api/registrations` and `POST /api/reviews` after the next
+frontend integration step. Never put `DATABASE_URL` or any other database
+credential in browser JavaScript.
+
 A mobile-first static directory prototype for finding sworn translators, previewing illustrative document layouts, submitting local listing requests, and checking registration numbers against the loaded dataset.
 
 ## Project contents

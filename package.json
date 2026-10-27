@@ -1,0 +1,21 @@
+{
+  "name": "sworn-translators-directory",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Full-stack directory for sworn translators in Sri Lanka",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "db:import": "node scripts/import-translators.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "pg": "^8.13.1"
+  }
+}
